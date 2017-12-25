@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX; // X location of ball
+        var ballY; // Y location of ball
+        var ballSpeedX = 0; // The speed of the ball horizontally
+        var ballSpeedY = 0; // The speed of the ball vertically
+        var paddleHeight = 30; // The height of the paddle
+        var score = 0; // The scoreboard starting score
+
+        function setup() {
+            createCanvas(800, 600);
+            noCursor(); // Hides the cursor when moving the mouse
+            ballX = random(width); // The ball will begin in the middle of the screen
+            ballY = random(height / 2); // The ball will begin in the middle of the screen
+        }
+
+        function draw() {
+            background(235, 244, 66); // The background color is yellow 
+            fill(0,0,255)
+                    textSize(30) // The size of the word 'score' on the screen
+                    text("SCORE:",25,50) // The location of the scoreboard (top left)
+                    text(score,145,50) // Displays the score 
+            
+            moveBall(); // The ball moves horizontally and vertically
+            checkCollide(); // Checks the collision with the wall or paddle
+            drawPaddle();// The paddle will be drawn again
+            drawBall(); // The ball will be drawn again
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX; // The X location of the ball changes
+            ballY = ballY + ballSpeedY; // The Y location of the ball changes
+
+            console.log("ballSpeedX: " + ballSpeedX +
+                ", ballSpeedY: " + ballSpeedY); // Checks the speed and location of the ball
+        }
+
+        function checkCollide() {
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1; // X location changes
+            }
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1; // Y location changes
+            }
+            if (ballY > height - paddleHeight) { // The ball is past the paddles height vertically
+                if (ballX > mouseX && ballX < mouseX + 200) { // The ball is within the location of the paddle
+                    ballSpeedY = ballSpeedY * -1; // Y location changes 
+                    ballSpeedY--; // The speed increases each time it hits the paddle
+                    console.log(ballSpeedY); // Checks the Y ball speed location
+                    score+=1 // Score will increase by 1 each time the ball bounces off the paddle
+                }
+                else {
+                    background("red"); // The background changes to red when performing an error or failed to continue the game
+                    text("GAME OVER!", width / 2, height / 2); // The word 'Game Over' will be displayed in the middle of the screen
+                    noLoop(); // Game stops
+                    fill(0,0,255) // The color of the text on the scoreboard and middle of the screen after the game changes to blue
+                    textSize(30) // The size of the text of the scoreboard
+                    text("SCORE:",25,50) // Shows the score at the top left
+                    text(score,145,50) // Displays the final score
+                    
+                }
+            }
+        }
+
+        function drawBall() {
+            noStroke(); // The ball will not have a outline
+            fill("red"); // The color of the ball will be red
+            ellipse(ballX, ballY, 20, 20); // Draws a ball at the current X and Y location
+        }
+
+        function drawPaddle() {
+            strokeWeight(4); // The outline of the rectangle
+            fill("blue"); // The color of the paddle will be blue
+            rect(mouseX, height - paddleHeight - 4, 200, paddleHeight); // The paddle will be at the bottom of the screen
+        }
+
+        function mousePressed() {
+            if (ballSpeedX == 0) {
+                ballSpeedX = 5; // The X location of 
+                ballSpeedY = 5;
+
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/danielz4861/p5js/blob/master/pong-remix.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</body>
+
+</html>
